@@ -1,0 +1,914 @@
+{
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Glog.AI",
+          "organization": "Glog.AI",
+          "fullName": "Glog, Making software more secure",
+          "version": "1.0.0",
+          "semanticVersion": "1.0.0",
+          "informationUri": "https://www.glog.ai",
+          "rules": [
+            {
+              "id": "glog-57cfec46-7eb4-4e32-8891-34b628bad5ef",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe `pyCrypto` library, along with its AES module, is deprecated and unmaintained. This poses a security risk as deprecated libraries may contain vulnerabilities that are not patched. It is recommended to use the `pyca/cryptography` library instead, which is actively maintained and provides a more secure and modern API for cryptographic operations.\n\n### General Mitigation Advice\n\n- Replace the `pyCrypto` library with the `pyca/cryptography` library.\n- Regularly update your dependencies to ensure you are using the latest versions with security patches.\n- Review and follow best practices for cryptographic operations to ensure data security.\n\n### Source Code Fix Recommendation\n\nReplace the deprecated `pyCrypto` library with `pyca/cryptography`. Here is an updated code example:\n\n```python\nfrom cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes\nfrom cryptography.hazmat.backends import default_backend\nimport os\n\n# Generate a random 16-byte key and 16-byte IV\nkey = os.urandom(16)\niv = os.urandom(16)\n\n# Create a Cipher object\ncipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())\n\n# Encryptor and Decryptor\nencryptor = cipher.encryptor()\ndecryptor = cipher.decryptor()\n\n# Example plaintext\nplaintext = b\"Secret Message\"\n\n# Encrypt the plaintext\nciphertext = encryptor.update(plaintext) + encryptor.finalize()\n\n# Decrypt the ciphertext\ndecrypted_text = decryptor.update(ciphertext) + decryptor.finalize()\n\nprint(\"Decrypted text:\", decrypted_text)\n```\n\n### Library Dependencies\n\nTo execute the updated code example, the following library dependencies are required:\n\n- `cryptography`\n\nYou can install the required library using pip:\n\n```bash\npip install cryptography\n```\n\n### Relevant OWASP Resources\n\n- [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)\n- [OWASP Top Ten](https://owasp.org/www-project-top-ten/)\n\n### Common Weakness Enumeration (CWE)\n\n- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B413"
+                ]
+              }
+            },
+            {
+              "id": "glog-63e5cf96-86ad-4bab-a6b1-f6ba9f02df51",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nDeserializing untrusted data with Python's `pickle` module can introduce significant security risks. The `pickle` module is designed to serialize and deserialize Python objects, but it is not secure against erroneous or maliciously constructed data. When untrusted data is deserialized using `pickle.loads()`, it can execute arbitrary code, leading to potential security vulnerabilities such as remote code execution (RCE).\n\n### Mitigation Advice\n\n1. **Avoid Using `pickle` for Untrusted Data**: If possible, avoid using `pickle` to deserialize data from untrusted sources. Consider using safer alternatives like `json` for data interchange.\n\n2. **Use `pickle` Alternatives**: If serialization is necessary, consider using safer libraries such as `json`, `marshal`, or `hjson` for data that does not require complex Python object serialization.\n\n3. **Implement Input Validation**: Validate and sanitize all inputs before deserialization to ensure they conform to expected formats and types.\n\n4. **Use Restricted Execution Environments**: If deserialization of untrusted data is unavoidable, consider executing the deserialization process in a restricted environment, such as a sandbox, to limit potential damage.\n\n### Source Code Fix Recommendation\n\nReplace the use of `pickle.loads()` with a safer alternative, such as `json.loads()`, if the data being deserialized is JSON-compatible.\n\n```python\nimport json\n\n# Assuming 'response' is a JSON string\nresponse = json.loads(response)\n```\n\n### Library Dependencies\n\nTo execute the code example properly, the following library is required:\n\n- `json` (Standard Library)\n\n### Relevant Resources\n\n- [OWASP Deserialization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html)\n- [OWASP Top Ten 2021: A08:2021 - Software and Data Integrity Failures](https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/)\n\n### Common Weakness Enumeration\n\n- [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B301"
+                ]
+              }
+            },
+            {
+              "id": "glog-da440f63-8533-4b91-855d-caa16d981387",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nDeserializing untrusted data with Python's `pickle` module can introduce significant security risks. The `pickle` module is designed to serialize and deserialize Python objects, but it is not secure against erroneous or maliciously constructed data. When untrusted data is deserialized using `pickle.loads()`, it can execute arbitrary code, leading to potential security vulnerabilities such as remote code execution (RCE).\n\n### Mitigation Advice\n\n1. **Avoid Using `pickle` for Untrusted Data**: If possible, avoid using `pickle` to deserialize data from untrusted sources. Consider using safer alternatives like `json` for data interchange.\n\n2. **Use `pickle` Alternatives**: If serialization is necessary, consider using safer libraries such as `json`, `marshal`, or `hjson` for data that does not require complex Python object serialization.\n\n3. **Implement Input Validation**: Validate and sanitize all inputs before deserialization to ensure they conform to expected formats and types.\n\n4. **Use Restricted Execution Environments**: If deserialization of untrusted data is unavoidable, consider executing the deserialization process in a restricted environment, such as a sandbox, to limit potential damage.\n\n### Source Code Fix Recommendation\n\nReplace the use of `pickle.loads()` with a safer alternative, such as `json.loads()`, if the data being deserialized is JSON-compatible.\n\n```python\nimport json\n\n# Assuming 'response' is a JSON string\nresponse = json.loads(response)\n```\n\n### Library Dependencies\n\nTo execute the code example properly, the following library is required:\n\n- `json` (Standard Library)\n\n### Relevant Resources\n\n- [OWASP Deserialization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html)\n- [OWASP Top Ten 2021: A08:2021 - Software and Data Integrity Failures](https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/)\n\n### Common Weakness Enumeration\n\n- [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B301"
+                ]
+              }
+            },
+            {
+              "id": "glog-9f4b6eeb-74a4-4913-b03b-a13543fe0f05",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe vulnerability arises when deserializing untrusted data using Python's `pickle` module. The `pickle` module is capable of executing arbitrary code during the deserialization process, which can be exploited by an attacker to execute malicious code. This makes it unsafe to use `pickle.loads()` on data that comes from an untrusted source.\n\n### General Mitigation Advice\n\n1. **Avoid Using `pickle` for Untrusted Data**: If possible, avoid using `pickle` to deserialize data from untrusted sources. Consider using safer alternatives like `json` or `yaml` for serialization and deserialization.\n\n2. **Use `pickle` with Caution**: If you must use `pickle`, ensure that the data being deserialized is from a trusted source. Validate and sanitize inputs before deserialization.\n\n3. **Use Restricted Unpickling**: Implement custom unpickling logic that restricts the classes and functions that can be deserialized.\n\n### Source Code Fix Recommendation\n\nInstead of using `pickle.loads()`, consider using a safer serialization format like JSON. Here's how you can modify the code:\n\n```python\nimport json\n\ndef safe_deserialize(binary):\n    # Assuming binary is a JSON string\n    return json.loads(binary)\n```\n\n### Library Dependencies\n\nFor the above code to execute properly, you need the following library:\n\n- `json` (This is a standard library in Python, so no additional installation is required.)\n\n### Relevant Links\n\n- [OWASP Deserialization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html)\n- [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B301"
+                ]
+              }
+            },
+            {
+              "id": "glog-87d1249f-449d-453c-af34-99854d4d5264",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe `pyCrypto` library, along with its `pad` module, is deprecated and no longer actively maintained. This poses a security risk as deprecated libraries may contain unpatched vulnerabilities. It is recommended to use the `pyca/cryptography` library, which is actively maintained and provides a more secure and modern approach to cryptographic operations.\n\n### General Mitigation Advice\n\n- Replace the deprecated `pyCrypto` library with the `pyca/cryptography` library.\n- Regularly update your dependencies to ensure you are using the latest, most secure versions.\n- Review and refactor your code to use the new library's API.\n\n### Source Code Fix Recommendation\n\nReplace the use of `pyCrypto`'s `pad` function with `pyca/cryptography`'s padding functionality. Here is an example of how you can modify your code:\n\n```python\n# Original code using pyCrypto\nfrom Crypto.Util.Padding import pad\n\ndata = b\"example data\"\nblock_size = 16\npadded_data = pad(data, block_size)\n\n# Updated code using pyca/cryptography\nfrom cryptography.hazmat.primitives import padding\n\ndata = b\"example data\"\nblock_size = 128  # block size in bits for cryptography library\npadder = padding.PKCS7(block_size).padder()\npadded_data = padder.update(data) + padder.finalize()\n```\n\n### Library Dependencies\n\nTo execute the updated code example, you need the following library:\n\n- `cryptography`\n\nYou can install it using pip:\n\n```bash\npip install cryptography\n```\n\n### Relevant OWASP Resources\n\n- [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)\n- [OWASP Top Ten](https://owasp.org/www-project-top-ten/)\n\n### Common Weakness Enumeration (CWE)\n\n- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B413"
+                ]
+              }
+            },
+            {
+              "id": "glog-0eda552e-6302-42e7-8ef1-8e37d790ce42",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe `pyCrypto` library, along with its AES module, is deprecated and unmaintained. This poses a security risk as deprecated libraries may contain vulnerabilities that are not patched. It is recommended to use the `pyca/cryptography` library instead, which is actively maintained and provides a more secure and modern API for cryptographic operations.\n\n### General Mitigation Advice\n\n- Replace the `pyCrypto` library with the `pyca/cryptography` library.\n- Regularly update your dependencies to ensure you are using the latest versions with security patches.\n- Review and follow best practices for cryptographic operations to ensure data security.\n\n### Source Code Fix Recommendation\n\nReplace the deprecated `pyCrypto` library with `pyca/cryptography`. Here is an updated code example:\n\n```python\nfrom cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes\nfrom cryptography.hazmat.backends import default_backend\nimport os\n\n# Generate a random 16-byte key and 16-byte IV\nkey = os.urandom(16)\niv = os.urandom(16)\n\n# Create a Cipher object\ncipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())\n\n# Encryptor and Decryptor\nencryptor = cipher.encryptor()\ndecryptor = cipher.decryptor()\n\n# Example plaintext\nplaintext = b\"Secret Message\"\n\n# Encrypt the plaintext\nciphertext = encryptor.update(plaintext) + encryptor.finalize()\n\n# Decrypt the ciphertext\ndecrypted_text = decryptor.update(ciphertext) + decryptor.finalize()\n\nprint(\"Decrypted text:\", decrypted_text)\n```\n\n### Library Dependencies\n\nTo execute the updated code example, the following library dependencies are required:\n\n- `cryptography`\n\nYou can install the required library using pip:\n\n```bash\npip install cryptography\n```\n\n### Relevant OWASP Resources\n\n- [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)\n- [OWASP Top Ten](https://owasp.org/www-project-top-ten/)\n\n### Common Weakness Enumeration (CWE)\n\n- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B413"
+                ]
+              }
+            },
+            {
+              "id": "glog-1aabe725-afba-40ad-a530-2d486ac74c05",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe `pyCrypto` library, along with its RSA module, has been deprecated and is no longer actively maintained. This poses a security risk as deprecated libraries may contain unpatched vulnerabilities that can be exploited by attackers. It is recommended to use the `pyca/cryptography` library instead, which is actively maintained and provides a more secure and modern approach to cryptographic operations.\n\n### General Mitigation Advice\n\n- Replace the use of the `pyCrypto` library with the `pyca/cryptography` library.\n- Regularly update your dependencies to ensure you are using the latest versions with security patches.\n- Review and follow best practices for cryptographic operations to ensure data security.\n\n### Source Code Fix Recommendation\n\nReplace the deprecated `pyCrypto` RSA module with the `pyca/cryptography` library. Here is an example of how to generate an RSA key using `pyca/cryptography`:\n\n```python\nfrom cryptography.hazmat.primitives.asymmetric import rsa\nfrom cryptography.hazmat.primitives import serialization\nfrom cryptography.hazmat.backends import default_backend\n\n# Generate RSA private key\nprivate_key = rsa.generate_private_key(\n    public_exponent=65537,\n    key_size=2048,\n    backend=default_backend()\n)\n\n# Serialize private key\npem = private_key.private_bytes(\n    encoding=serialization.Encoding.PEM,\n    format=serialization.PrivateFormat.TraditionalOpenSSL,\n    encryption_algorithm=serialization.NoEncryption()\n)\n\n# Save to a file\nwith open('private_key.pem', 'wb') as f:\n    f.write(pem)\n```\n\n### Library Dependencies\n\nTo execute the code example properly, the following library dependencies are required:\n\n- `cryptography`\n\nYou can install the required library using pip:\n\n```bash\npip install cryptography\n```\n\n### Relevant OWASP Resources\n\n- [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)\n- [OWASP Top Ten](https://owasp.org/www-project-top-ten/)\n\n### Common Weakness Enumeration (CWE)\n\n- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B413"
+                ]
+              }
+            },
+            {
+              "id": "glog-ae12bbd2-0d0e-48d8-87ac-2eded051b88b",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe `pyCrypto` library, including its `unpad` module, is deprecated and unmaintained. This poses a security risk as deprecated libraries may contain vulnerabilities that are not patched. The recommended alternative is the `pyca/cryptography` library, which is actively maintained and provides a more secure and modern approach to cryptographic operations.\n\n### General Mitigation Advice\n\n- Replace the use of the `pyCrypto` library with the `pyca/cryptography` library.\n- Regularly update your dependencies to ensure you are using the latest, most secure versions.\n- Review and refactor your code to use secure cryptographic practices.\n\n### Source Code Fix Recommendation\n\nReplace the deprecated `unpad` function from `pyCrypto` with the equivalent functionality from the `pyca/cryptography` library. Here is an example of how you can modify your code:\n\n```python\n# Original code using pyCrypto\nfrom Crypto.Util.Padding import unpad\n\n# Example usage\ndef decrypt_and_unpad(ciphertext, key, iv):\n    # Decrypt the ciphertext\n    plaintext_padded = decrypt(ciphertext, key, iv)\n    # Unpad the plaintext\n    plaintext = unpad(plaintext_padded, block_size)\n    return plaintext\n\n# Updated code using pyca/cryptography\nfrom cryptography.hazmat.primitives import padding\n\n# Example usage\ndef decrypt_and_unpad(ciphertext, key, iv):\n    # Decrypt the ciphertext\n    plaintext_padded = decrypt(ciphertext, key, iv)\n    # Unpad the plaintext\n    unpadder = padding.PKCS7(block_size * 8).unpadder()\n    plaintext = unpadder.update(plaintext_padded) + unpadder.finalize()\n    return plaintext\n```\n\n### Library Dependencies\n\nTo execute the updated code example, you need the following library:\n\n- `cryptography`\n\nYou can install it using pip:\n\n```bash\npip install cryptography\n```\n\n### Relevant OWASP Resources\n\n- [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)\n- [OWASP Top Ten](https://owasp.org/www-project-top-ten/)\n\n### Common Weakness Enumeration (CWE)\n\n- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B413"
+                ]
+              }
+            },
+            {
+              "id": "glog-b778680d-3b54-423f-8ad8-adbca1b042fb",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe \"Detection of exec Usage\" vulnerability in Python arises when the `exec()` function is used to execute dynamically generated Python code. This can lead to security risks, especially if the input to `exec()` is not properly sanitized, as it may allow an attacker to execute arbitrary code. The specific vulnerability sink in the code example is:\n\n```python\nexec(func_source, {}, namespace)\n```\n\nThis usage of `exec()` can be dangerous if `func_source` contains untrusted input, potentially leading to code injection attacks.\n\n### General Mitigation Advice\n\n1. **Avoid Using `exec()`**: If possible, refactor the code to avoid using `exec()`. Consider using safer alternatives like functions, classes, or other Python constructs that do not require dynamic code execution.\n\n2. **Input Validation and Sanitization**: If `exec()` must be used, ensure that the input is thoroughly validated and sanitized. Only allow known safe inputs and reject anything that could be potentially harmful.\n\n3. **Use Restricted Execution Environments**: Limit the execution environment by providing a restricted set of built-in functions and variables. This can be done by controlling the `globals` and `locals` dictionaries passed to `exec()`.\n\n4. **Logging and Monitoring**: Implement logging and monitoring to detect any unusual or unauthorized use of `exec()` in your application.\n\n### Source Code Fix Recommendation\n\nTo mitigate the risk associated with the use of `exec()`, consider the following code fix:\n\n```python\n# Example of safer alternative\ndef execute_function(func_name, namespace):\n    if func_name in namespace:\n        func = namespace[func_name]\n        if callable(func):\n            return func()\n    raise ValueError(\"Function not found or not callable\")\n\n# Usage\nnamespace = {\n    'safe_function': lambda: \"This is safe\"\n}\n\n# Instead of using exec(), call the function directly\nresult = execute_function('safe_function', namespace)\n```\n\n### Library Dependencies\n\nThe provided code example does not require any additional library dependencies to execute properly, as it uses only built-in Python functionality.\n\n### Relevant Links\n\n- [OWASP Code Injection](https://owasp.org/www-community/attacks/Code_Injection)\n- [CWE-94: Improper Control of Generation of Code ('Code Injection')](https://cwe.mitre.org/data/definitions/94.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B102"
+                ]
+              }
+            },
+            {
+              "id": "glog-ce6af6a6-c2d1-4734-ab1a-9f7dae63d82e",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe `pyCrypto` library, including its `SHA256` module, is deprecated and unmaintained. This poses a security risk as deprecated libraries may contain vulnerabilities that are not patched. It is recommended to switch to the actively maintained `pyca/cryptography` library, which provides a more secure and up-to-date implementation of cryptographic functions.\n\n### General Mitigation Advice\n\n- Replace the use of the `pyCrypto` library with the `pyca/cryptography` library.\n- Regularly update your dependencies to ensure you are using the latest versions with security patches.\n- Review your code for any other deprecated or unmaintained libraries and replace them with supported alternatives.\n\n### Source Code Fix Recommendation\n\nReplace the deprecated `pyCrypto` code with the following using `pyca/cryptography`:\n\n```python\nfrom cryptography.hazmat.backends import default_backend\nfrom cryptography.hazmat.primitives import hashes\n\n# Create a SHA256 hash object\ndigest = hashes.Hash(hashes.SHA256(), backend=default_backend())\n\n# Update the hash object with data\ndigest.update(b\"your data here\")\n\n# Finalize the hash and get the digest\nhash_value = digest.finalize()\n```\n\n### Library Dependencies\n\nTo execute the code example properly, the following library dependencies are required:\n\n- `cryptography`\n\nYou can install the required library using pip:\n\n```bash\npip install cryptography\n```\n\n### Relevant OWASP Resources\n\n- [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)\n- [OWASP Top Ten](https://owasp.org/www-project-top-ten/)\n\n### Common Weakness Enumeration (CWE)\n\n- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B413"
+                ]
+              }
+            },
+            {
+              "id": "glog-6e89e219-06aa-4e2e-b908-4406dff7011d",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe vulnerability arises from using RSA keys smaller than 2048 bits, which are considered insecure due to advances in computational power and cryptanalysis techniques. RSA keys of 1024 bits or smaller can be broken with sufficient resources, making them vulnerable to attacks that could compromise the confidentiality and integrity of encrypted data.\n\n### Mitigation Advice\n\nTo mitigate this vulnerability, it is recommended to use RSA keys of at least 2048 bits. This increases the difficulty for attackers to break the encryption, providing a higher level of security.\n\n### Source Code Fix Recommendation\n\nReplace the line generating a 1024-bit RSA key with one that generates a 2048-bit key:\n\n```python\nfrom Crypto.PublicKey import RSA\n\n# Vulnerable code\n# rsa = RSA.generate(1024)\n\n# Fixed code\nrsa = RSA.generate(2048)\n```\n\n### Library Dependencies\n\nTo execute the code example properly, the following library is required:\n\n- `pycryptodome`\n\nYou can install it using pip:\n\n```bash\npip install pycryptodome\n```\n\n### Relevant Resources\n\n- [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)\n- [OWASP Top Ten 2021 - A02:2021-Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)\n\n### Common Weakness Enumeration\n\n- [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B505"
+                ]
+              }
+            },
+            {
+              "id": "glog-4453c1c7-3c87-426c-ba19-b2d7970130dc",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe vulnerability arises from the use of the SHA-1 hashing algorithm, which is considered weak due to its susceptibility to collision attacks. In Python, the `hashlib` library provides access to various hashing algorithms, including SHA-1. The function `hashlib_sha1(smart_encode(data))` indicates that SHA-1 is being used to hash the encoded data. The use of SHA-1 for security purposes is discouraged, and it is recommended to use stronger hashing algorithms like SHA-256 or SHA-3.\n\n### General Mitigation Advice\n\n1. **Avoid Using SHA-1**: Transition to stronger hashing algorithms such as SHA-256 or SHA-3.\n2. **Use `usedforsecurity=False`**: If you must use SHA-1 for non-security purposes, ensure that it is explicitly marked as not used for security.\n3. **Regularly Update Dependencies**: Ensure that all libraries and dependencies are up-to-date to benefit from the latest security patches.\n\n### Source Code Fix Recommendation\n\nReplace the use of SHA-1 with a stronger algorithm like SHA-256. Here is the updated code:\n\n```python\nimport hashlib\n\ndef secure_hash(data):\n    return hashlib.sha256(smart_encode(data)).hexdigest()\n\ndef smart_encode(data):\n    if isinstance(data, str):\n        return data.encode('utf-8')\n    return data\n```\n\n### Library Dependencies\n\nTo execute the code example properly, the following library is required:\n\n- `hashlib`: This is a built-in library in Python, so no additional installation is necessary.\n\n### Relevant OWASP Resources\n\n- [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)\n- [OWASP Top Ten 2021](https://owasp.org/Top10/)\n\n### Common Weakness Enumeration (CWE)\n\n- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B324"
+                ]
+              }
+            },
+            {
+              "id": "glog-15fd8209-72c6-4701-97be-08fc58d8c3eb",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe vulnerability in question arises from the use of the `xml.etree.ElementTree.fromstring` method in Python, which can be susceptible to XML External Entity (XXE) attacks. These attacks occur when an XML input containing a reference to an external entity is processed by an XML parser that does not properly restrict access to external resources. This can lead to unauthorized access to sensitive data, denial of service, or other security issues.\n\n### General Mitigation Advice\n\nTo mitigate this vulnerability, it is recommended to use the `defusedxml` library, which provides safer alternatives to the standard XML libraries in Python. Specifically, you can replace `xml.etree.ElementTree.fromstring` with `defusedxml.ElementTree.fromstring`. Alternatively, you can use `defusedxml.defuse_stdlib()` to patch the standard library XML modules to prevent these types of attacks.\n\n### Source Code Fix Recommendation\n\nReplace the vulnerable code:\n\n```python\nimport xml.etree.ElementTree as ET\n\nroot = ET.fromstring(xml_data)\n```\n\nWith the following secure code using `defusedxml`:\n\n```python\nfrom defusedxml.ElementTree import fromstring\n\nroot = fromstring(xml_data)\n```\n\nOr, if you prefer to patch the standard library:\n\n```python\nimport defusedxml\nimport xml.etree.ElementTree as ET\n\ndefusedxml.defuse_stdlib()\n\nroot = ET.fromstring(xml_data)\n```\n\n### Library Dependencies\n\nTo execute the secure code example, you need the following library:\n\n- `defusedxml`\n\nYou can install it using pip:\n\n```bash\npip install defusedxml\n```\n\n### Relevant OWASP Resources\n\n- [OWASP XML External Entity (XXE) Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html)\n\n### Common Weakness Enumeration (CWE)\n\n- [CWE-611: Improper Restriction of XML External Entity Reference ('XXE')](https://cwe.mitre.org/data/definitions/611.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B314"
+                ]
+              }
+            },
+            {
+              "id": "glog-707e4d9f-8eef-4398-bed3-4ed9ec44327c",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe vulnerability arises from the use of the MD5 hashing algorithm for security purposes. MD5 is considered weak due to its susceptibility to collision attacks, where two different inputs produce the same hash output. This makes it unsuitable for cryptographic security, such as hashing passwords or sensitive data. In the given code snippet, the MD5 hash is used to generate a hash of HTTP headers, which could be exploited by an attacker to create a collision and potentially bypass security mechanisms.\n\n### General Mitigation Advice\n\nTo mitigate this vulnerability, it is recommended to use a more secure hashing algorithm, such as SHA-256, which is part of the SHA-2 family. These algorithms are designed to be more resistant to collision and pre-image attacks.\n\n### Source Code Fix Recommendation\n\nReplace the use of the MD5 hashing algorithm with SHA-256. Here is the updated code snippet:\n\n```python\nimport hashlib\n\n# Original code\n# header_md5 = md5(raw_headers_encoded).hexdigest()\n\n# Updated code using SHA-256\nheader_sha256 = hashlib.sha256(raw_headers_encoded).hexdigest()\n```\n\n### Library Dependencies\n\nTo execute the code example properly, the following library is required:\n\n- `hashlib`: This is a built-in library in Python, so no additional installation is necessary.\n\n### Relevant OWASP Resources\n\n- [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)\n- [OWASP Top Ten 2021 - A03:2021-Injection](https://owasp.org/Top10/A03_2021-Injection/)\n\n### Common Weakness Enumeration (CWE)\n\n- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B324"
+                ]
+              }
+            },
+            {
+              "id": "glog-925ecba6-d4a3-4438-a0bd-3227459ddefc",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe `pyCrypto` library, along with its AES module, is deprecated and no longer actively maintained. This poses a security risk as deprecated libraries do not receive updates or patches for vulnerabilities, leaving applications that rely on them exposed to potential security threats. It is recommended to use the `pyca/cryptography` library instead, which is actively maintained and provides a more secure and modern approach to cryptographic operations.\n\n### General Mitigation Advice\n\n1. **Upgrade to a Maintained Library**: Transition from `pyCrypto` to `pyca/cryptography` to ensure that your cryptographic operations are secure and up-to-date with the latest security standards.\n2. **Regularly Update Dependencies**: Keep all dependencies updated to their latest versions to benefit from security patches and improvements.\n3. **Review Cryptographic Practices**: Regularly review and update cryptographic practices to align with current security standards and best practices.\n\n### Source Code Fix Recommendation\n\nReplace the deprecated `pyCrypto` library with `pyca/cryptography`. Below is a refactored version of the code using `pyca/cryptography`:\n\n```python\nfrom cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes\nfrom cryptography.hazmat.primitives.asymmetric import padding\nfrom cryptography.hazmat.primitives import hashes\nfrom cryptography.hazmat.backends import default_backend\n\n# Example AES encryption using pyca/cryptography\nkey = b'Sixteen byte key'\niv = b'Sixteen byte iv.'\ncipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())\nencryptor = cipher.encryptor()\nct = encryptor.update(b\"a secret message\") + encryptor.finalize()\n\n# Example RSA encryption using pyca/cryptography\n# Assuming rsa_public_key is a loaded RSA public key\nciphertext = rsa_public_key.encrypt(\n    b\"a secret message\",\n    padding.OAEP(\n        mgf=padding.MGF1(algorithm=hashes.SHA256()),\n        algorithm=hashes.SHA256(),\n        label=None\n    )\n)\n```\n\n### Library Dependencies\n\nTo execute the refactored code properly, the following library dependencies are required:\n\n- `cryptography`\n\nYou can install the required library using pip:\n\n```bash\npip install cryptography\n```\n\n### Relevant OWASP Resources\n\n- [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)\n- [OWASP Top Ten](https://owasp.org/www-project-top-ten/)\n\n### Common Weakness Enumeration (CWE)\n\n- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B413"
+                ]
+              }
+            },
+            {
+              "id": "glog-c34c3c95-aef6-4ac0-8c5e-4d823e55167e",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nDeserializing untrusted data using Python's `pickle` module can introduce significant security risks. The `pickle` module is designed to serialize and deserialize Python objects, but it is not secure against erroneous or maliciously constructed data. If an attacker can control the input to `pickle.load()`, they can execute arbitrary code during the deserialization process. This vulnerability is particularly dangerous when deserializing data from untrusted sources, as it can lead to remote code execution.\n\n### General Mitigation Advice\n\n1. **Avoid Using `pickle` for Untrusted Data**: If possible, avoid using `pickle` to deserialize data from untrusted sources. Consider using safer alternatives like `json` or `yaml` for data interchange formats.\n\n2. **Use `pickle` Safely**: If you must use `pickle`, ensure that the data being deserialized is from a trusted source. Validate and sanitize all inputs before deserialization.\n\n3. **Use Restricted Unpickling**: Consider using the `pickle` module's `RestrictedUnpickler` to limit the classes and functions that can be deserialized.\n\n4. **Implement Access Controls**: Ensure that only authorized users can provide data to be deserialized.\n\n### Source Code Fix Recommendation\n\nTo mitigate the vulnerability in the specific code sink:\n\n```python\nimport pickle\nimport json\n\n# Assuming `f` is a file-like object containing JSON data\nself._preload_cache = json.load(f)\n```\n\nBy replacing `pickle.load(f)` with `json.load(f)`, you avoid the security risks associated with deserializing untrusted data using `pickle`.\n\n### Library Dependencies\n\nTo execute the code example properly, the following library dependencies are required:\n\n- `json` (part of Python's standard library)\n\n### Relevant OWASP Resources\n\n- [OWASP Deserialization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html)\n- [OWASP Top Ten 2021 - A08:2021 - Software and Data Integrity Failures](https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/)\n\n### Common Weakness Enumeration (CWE)\n\n- [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B301"
+                ]
+              }
+            },
+            {
+              "id": "glog-093cd554-efb0-4138-915d-d00a927ae5ec",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe vulnerability arises from the use of the MD5 hashing algorithm for security purposes. MD5 is considered weak due to its susceptibility to collision attacks, where two different inputs produce the same hash output. This makes it unsuitable for cryptographic security, such as verifying the integrity of data or storing passwords. In the given code snippet, the MD5 hash is used to compute a hash of the response content, which could be exploited by an attacker to create a malicious response with the same hash value.\n\n### General Mitigation Advice\n\nTo mitigate this vulnerability, it is recommended to use a more secure hashing algorithm, such as SHA-256, which provides a higher level of security against collision attacks. Additionally, ensure that the `usedforsecurity` parameter is set to `False` if using MD5 for non-security purposes, although it is generally better to avoid MD5 altogether.\n\n### Source Code Fix Recommendation\n\nReplace the MD5 hashing algorithm with SHA-256 as follows:\n\n```python\nimport hashlib\n\n# Original code\n# body_md5 = md5(response.content).hexdigest()\n\n# Fixed code\nbody_sha256 = hashlib.sha256(response.content).hexdigest()\n```\n\n### Library Dependencies\n\nTo execute the code example properly, the following library is required:\n\n- `hashlib`: This is a built-in library in Python, so no additional installation is necessary.\n\n### Relevant OWASP Resources\n\n- [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)\n- [OWASP Top Ten 2021](https://owasp.org/Top10/)\n\n### Common Weakness Enumeration (CWE)\n\n- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B324"
+                ]
+              }
+            },
+            {
+              "id": "glog-c2ecb58f-f396-4657-8d3f-ed93c842c080",
+              "help": {
+                "text": "",
+                "markdown": "### Description\n\nThe vulnerability arises when using the `xml.etree.ElementTree.fromstring` method to parse XML data that is untrusted or comes from an untrusted source. This method is vulnerable to various XML-related attacks, such as XML External Entity (XXE) attacks, which can lead to data exposure, denial of service, or other security issues. The `xml.etree.ElementTree` module does not provide protection against these attacks by default.\n\n### General Mitigation Advice\n\nTo mitigate this vulnerability, it is recommended to use the `defusedxml` library, which provides a safer alternative to the standard XML libraries in Python. The `defusedxml` library disables the ability to process external entities and DTDs, which are the primary vectors for XXE attacks.\n\n### Source Code Fix Recommendation\n\nReplace the vulnerable code with a safer alternative using the `defusedxml` library:\n\n```python\nimport defusedxml.ElementTree as ET\n\nroot = ET.fromstring(content)\n```\n\nAlternatively, if you want to continue using the standard library, ensure that `defusedxml.defuse_stdlib()` is called at the start of your application to patch the standard library's XML modules:\n\n```python\nimport defusedxml\n\ndefusedxml.defuse_stdlib()\n\nimport xml.etree.ElementTree as ET\n\nroot = ET.fromstring(content)\n```\n\n### Library Dependencies\n\nTo execute the code example properly, the following library dependencies are required:\n\n- `defusedxml`\n\nYou can install this dependency using pip:\n\n```bash\npip install defusedxml\n```\n\n### Relevant Links\n\n- [OWASP XML External Entity (XXE) Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html)\n- [Common Weakness Enumeration: CWE-611: Improper Restriction of XML External Entity Reference ('XXE')](https://cwe.mitre.org/data/definitions/611.html)"
+              },
+              "properties": {
+                "tags": [
+                  "B314"
+                ]
+              }
+            }
+          ],
+          "language": "en-US",
+          "contents": [
+            "localizedData",
+            "nonLocalizedData"
+          ],
+          "isComprehensive": false
+        }
+      },
+      "language": "en-US",
+      "results": [
+        {
+          "ruleId": "glog-57cfec46-7eb4-4e32-8891-34b628bad5ef",
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "The pyCrypto library and its module AES are no longer actively maintained and have been deprecated. Consider using pyca/cryptography library."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/helpers/depsinstaller/installer.py"
+                },
+                "region": {
+                  "startLine": 453,
+                  "startColumn": 9,
+                  "endLine": 453,
+                  "endColumn": 38,
+                  "snippet": {
+                    "text": "        from Crypto.Cipher import AES\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 452,
+                  "endLine": 454,
+                  "snippet": {
+                    "text": "    def _encrypt_sudo_pw(self, pw):\n        from Crypto.Cipher import AES\n        from Crypto.Util.Padding import pad\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "HIGH",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-63e5cf96-86ad-4bab-a6b1-f6ba9f02df51",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/engine.py"
+                },
+                "region": {
+                  "startLine": 226,
+                  "startColumn": 24,
+                  "endLine": 226,
+                  "endColumn": 46,
+                  "snippet": {
+                    "text": "            response = pickle.loads(response)\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 225,
+                  "endLine": 227,
+                  "snippet": {
+                    "text": "            )\n            response = pickle.loads(response)\n            if isinstance(response, dict):\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "MEDIUM",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-da440f63-8533-4b91-855d-caa16d981387",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/engine.py"
+                },
+                "region": {
+                  "startLine": 241,
+                  "startColumn": 32,
+                  "endLine": 241,
+                  "endColumn": 54,
+                  "snippet": {
+                    "text": "                    response = pickle.loads(response)\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 240,
+                  "endLine": 242,
+                  "snippet": {
+                    "text": "                    response = await asyncio.wait_for(socket.recv(), 0.5)\n                    response = pickle.loads(response)\n                    if isinstance(response, dict):\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "MEDIUM",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-9f4b6eeb-74a4-4913-b03b-a13543fe0f05",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/engine.py"
+                },
+                "region": {
+                  "startLine": 60,
+                  "startColumn": 20,
+                  "endLine": 60,
+                  "endColumn": 40,
+                  "snippet": {
+                    "text": "            return pickle.loads(binary)\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 59,
+                  "endLine": 61,
+                  "snippet": {
+                    "text": "        try:\n            return pickle.loads(binary)\n        except Exception as e:\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "MEDIUM",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-87d1249f-449d-453c-af34-99854d4d5264",
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "The pyCrypto library and its module pad are no longer actively maintained and have been deprecated. Consider using pyca/cryptography library."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/helpers/depsinstaller/installer.py"
+                },
+                "region": {
+                  "startLine": 454,
+                  "startColumn": 9,
+                  "endLine": 454,
+                  "endColumn": 44,
+                  "snippet": {
+                    "text": "        from Crypto.Util.Padding import pad\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 453,
+                  "endLine": 455,
+                  "snippet": {
+                    "text": "        from Crypto.Cipher import AES\n        from Crypto.Util.Padding import pad\n\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "HIGH",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-0eda552e-6302-42e7-8ef1-8e37d790ce42",
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "The pyCrypto library and its module AES are no longer actively maintained and have been deprecated. Consider using pyca/cryptography library."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/helpers/depsinstaller/sudo_askpass.py"
+                },
+                "region": {
+                  "startLine": 5,
+                  "startColumn": 1,
+                  "endLine": 5,
+                  "endColumn": 30,
+                  "snippet": {
+                    "text": "from Crypto.Cipher import AES\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 4,
+                  "endLine": 6,
+                  "snippet": {
+                    "text": "from pathlib import Path\nfrom Crypto.Cipher import AES\nfrom Crypto.Util.Padding import unpad\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "HIGH",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-1aabe725-afba-40ad-a530-2d486ac74c05",
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "The pyCrypto library and its module RSA are no longer actively maintained and have been deprecated. Consider using pyca/cryptography library."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/helpers/interactsh.py"
+                },
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 1,
+                  "endLine": 11,
+                  "endColumn": 33,
+                  "snippet": {
+                    "text": "from Crypto.PublicKey import RSA\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 10,
+                  "endLine": 12,
+                  "snippet": {
+                    "text": "from Crypto.Hash import SHA256\nfrom Crypto.PublicKey import RSA\nfrom Crypto.Cipher import AES, PKCS1_OAEP\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "HIGH",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-ae12bbd2-0d0e-48d8-87ac-2eded051b88b",
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "The pyCrypto library and its module unpad are no longer actively maintained and have been deprecated. Consider using pyca/cryptography library."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/helpers/depsinstaller/sudo_askpass.py"
+                },
+                "region": {
+                  "startLine": 6,
+                  "startColumn": 1,
+                  "endLine": 6,
+                  "endColumn": 38,
+                  "snippet": {
+                    "text": "from Crypto.Util.Padding import unpad\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 5,
+                  "endLine": 7,
+                  "snippet": {
+                    "text": "from Crypto.Cipher import AES\nfrom Crypto.Util.Padding import unpad\n\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "HIGH",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-b778680d-3b54-423f-8ad8-adbca1b042fb",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "Use of exec detected."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/helpers/dns/engine.py"
+                },
+                "region": {
+                  "startLine": 662,
+                  "startColumn": 13,
+                  "endLine": 662,
+                  "endColumn": 45,
+                  "snippet": {
+                    "text": "            exec(func_source, {}, namespace)\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 661,
+                  "endLine": 663,
+                  "snippet": {
+                    "text": "            namespace = {}\n            exec(func_source, {}, namespace)\n            return namespace[\"custom_lookup\"]\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "MEDIUM",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-ce6af6a6-c2d1-4734-ab1a-9f7dae63d82e",
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "The pyCrypto library and its module SHA256 are no longer actively maintained and have been deprecated. Consider using pyca/cryptography library."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/helpers/interactsh.py"
+                },
+                "region": {
+                  "startLine": 10,
+                  "startColumn": 1,
+                  "endLine": 10,
+                  "endColumn": 31,
+                  "snippet": {
+                    "text": "from Crypto.Hash import SHA256\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 9,
+                  "endLine": 11,
+                  "snippet": {
+                    "text": "\nfrom Crypto.Hash import SHA256\nfrom Crypto.PublicKey import RSA\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "HIGH",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-6e89e219-06aa-4e2e-b908-4406dff7011d",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "RSA key sizes below 2048 bits are considered breakable. "
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/helpers/interactsh.py"
+                },
+                "region": {
+                  "startLine": 113,
+                  "startColumn": 15,
+                  "endLine": 113,
+                  "endColumn": 33,
+                  "snippet": {
+                    "text": "        rsa = RSA.generate(1024)\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 112,
+                  "endLine": 114,
+                  "snippet": {
+                    "text": "        \"\"\"\n        rsa = RSA.generate(1024)\n\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "MEDIUM",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-4453c1c7-3c87-426c-ba19-b2d7970130dc",
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Use of weak SHA1 hash for security. Consider usedforsecurity=False"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/helpers/misc.py"
+                },
+                "region": {
+                  "startLine": 706,
+                  "startColumn": 12,
+                  "endLine": 706,
+                  "endColumn": 44,
+                  "snippet": {
+                    "text": "    return hashlib_sha1(smart_encode(data))\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 705,
+                  "endLine": 707,
+                  "snippet": {
+                    "text": "        data = json.dumps(data, sort_keys=True)\n    return hashlib_sha1(smart_encode(data))\n\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "HIGH",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-15fd8209-72c6-4701-97be-08fc58d8c3eb",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "Using xml.etree.ElementTree.fromstring to parse untrusted XML data is known to be vulnerable to XML attacks. Replace xml.etree.ElementTree.fromstring with its defusedxml equivalent function or make sure defusedxml.defuse_stdlib() is called"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/helpers/misc.py"
+                },
+                "region": {
+                  "startLine": 905,
+                  "startColumn": 16,
+                  "endLine": 905,
+                  "endColumn": 39,
+                  "snippet": {
+                    "text": "        root = ET.fromstring(xml_data)\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 904,
+                  "endLine": 906,
+                  "snippet": {
+                    "text": "    try:\n        root = ET.fromstring(xml_data)\n    except ET.ParseError:\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "MEDIUM",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-707e4d9f-8eef-4398-bed3-4ed9ec44327c",
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Use of weak MD5 hash for security. Consider usedforsecurity=False"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/helpers/web/web.py"
+                },
+                "region": {
+                  "startLine": 526,
+                  "startColumn": 31,
+                  "endLine": 526,
+                  "endColumn": 55,
+                  "snippet": {
+                    "text": "                \"header_md5\": md5(raw_headers_encoded).hexdigest(),\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 525,
+                  "endLine": 527,
+                  "snippet": {
+                    "text": "                # \"body_simhash\": \"TODO\",\n                \"header_md5\": md5(raw_headers_encoded).hexdigest(),\n                \"header_mmh3\": mmh3.hash(raw_headers_encoded),\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "HIGH",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-925ecba6-d4a3-4438-a0bd-3227459ddefc",
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "The pyCrypto library and its module AES are no longer actively maintained and have been deprecated. Consider using pyca/cryptography library."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/helpers/interactsh.py"
+                },
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 1,
+                  "endLine": 12,
+                  "endColumn": 42,
+                  "snippet": {
+                    "text": "from Crypto.Cipher import AES, PKCS1_OAEP\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 11,
+                  "endLine": 13,
+                  "snippet": {
+                    "text": "from Crypto.PublicKey import RSA\nfrom Crypto.Cipher import AES, PKCS1_OAEP\n\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "HIGH",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-c34c3c95-aef6-4ac0-8c5e-4d823e55167e",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/modules.py"
+                },
+                "region": {
+                  "startLine": 220,
+                  "startColumn": 47,
+                  "endLine": 220,
+                  "endColumn": 61,
+                  "snippet": {
+                    "text": "                        self._preload_cache = pickle.load(f)\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 219,
+                  "endLine": 221,
+                  "snippet": {
+                    "text": "                    with open(self.preload_cache_file, \"rb\") as f:\n                        self._preload_cache = pickle.load(f)\n        return self._preload_cache\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "MEDIUM",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-093cd554-efb0-4138-915d-d00a927ae5ec",
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Use of weak MD5 hash for security. Consider usedforsecurity=False"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/core/helpers/web/web.py"
+                },
+                "region": {
+                  "startLine": 522,
+                  "startColumn": 29,
+                  "endLine": 522,
+                  "endColumn": 50,
+                  "snippet": {
+                    "text": "                \"body_md5\": md5(response.content).hexdigest(),\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 521,
+                  "endLine": 523,
+                  "snippet": {
+                    "text": "            \"hash\": {\n                \"body_md5\": md5(response.content).hexdigest(),\n                \"body_mmh3\": mmh3.hash(response.content),\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "HIGH",
+            "issue_confidence": "HIGH"
+          }
+        },
+        {
+          "ruleId": "glog-c2ecb58f-f396-4657-8d3f-ed93c842c080",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "Using xml.etree.ElementTree.fromstring to parse untrusted XML data is known to be vulnerable to XML attacks. Replace xml.etree.ElementTree.fromstring with its defusedxml equivalent function or make sure defusedxml.defuse_stdlib() is called"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bbot/modules/bucket_file_enum.py"
+                },
+                "region": {
+                  "startLine": 42,
+                  "startColumn": 20,
+                  "endLine": 42,
+                  "endColumn": 42,
+                  "snippet": {
+                    "text": "            root = ET.fromstring(content)\n"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 41,
+                  "endLine": 43,
+                  "snippet": {
+                    "text": "            content = response.text\n            root = ET.fromstring(content)\n            namespace = {\"s3\": \"http://s3.amazonaws.com/doc/2006-03-01/\"}\n"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "issue_severity": "MEDIUM",
+            "issue_confidence": "HIGH"
+          }
+        }
+      ],
+      "newlineSequences": [
+        "\r\n",
+        "\n"
+      ]
+    }
+  ]
+}
